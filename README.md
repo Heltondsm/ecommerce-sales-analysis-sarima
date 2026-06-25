@@ -1,4 +1,4 @@
-# 📈 Prévision de ventes e-commerce — Modélisation SARIMA
+# 📈 Prévision de ventes e-commerce : Modélisation SARIMA
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
@@ -9,7 +9,7 @@
 
 Prévision des ventes mensuelles d'un e-commerce par modélisation statistique. Décomposition de la série temporelle, sélection du modèle par grid search (64 combinaisons), prévisions SARIMA avec intervalles de confiance à 95%.
 
-**Dataset :** Kaggle — SuperStore Sales Dataset
+**Dataset :** Kaggle, SuperStore Sales Dataset
 
 ---
 
@@ -230,9 +230,9 @@ Data Analyst | 10 ans d'expérience Business (retail + e-commerce) → Reconvers
 
 ## 🔗 Autres projets
 
-- [Exploration SQL — Portefeuille assurances habitation](https://github.com/Heltondsm/sql-assurances-habitation) — 50K+ contrats, jointures, agrégations, segmentation géographique
-- [Sous-nutrition mondiale — Données FAO](https://github.com/Heltondsm/etude-sante-publique-fao) — Python, 4 datasets, 528M personnes, conclusion : problème de distribution
-- [Performance e-commerce — Le Grand Marché](https://github.com/Heltondsm/analyse-ventes-ecommerce) — Excel, KPIs, trafic ×30, segmentation 2 profils
+- [Exploration SQL, Portefeuille assurances habitation](https://github.com/Heltondsm/sql-assurances-habitation), 50K+ contrats, jointures, agrégations, segmentation géographique
+- [Sous-nutrition mondiale, Données FAO](https://github.com/Heltondsm/etude-sante-publique-fao), Python, 4 datasets, 528M personnes, conclusion : problème de distribution
+- [Performance e-commerce, Le Grand Marché](https://github.com/Heltondsm/analyse-ventes-ecommerce), Excel, KPIs, trafic ×30, segmentation 2 profils
 
 ---
 
