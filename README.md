@@ -1,4 +1,4 @@
-# 📈 Prévision de ventes e-commerce : Modélisation SARIMA
+# 📈 Prévision de ventes e-commerce : modélisation SARIMA
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
@@ -7,217 +7,104 @@
 ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square&logo=jupyter&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Completed-22c55e?style=flat-square)
 
-Prévision des ventes mensuelles d'un e-commerce par modélisation statistique. Décomposition de la série temporelle, sélection du modèle par grid search (64 combinaisons), prévisions SARIMA avec intervalles de confiance à 95%.
+Quatre ans de ventes d'un e-commerce américain analysées, puis un modèle **SARIMA choisi parmi 64 combinaisons** pour prévoir les ventes des jours suivants. L'analyse montre où se fait le chiffre d'affaires : **la technologie, la Californie et New York, et le segment des particuliers.**
 
-**Dataset :** Kaggle, SuperStore Sales Dataset
-
----
-
-## 📝 Présentation
-
-Modèle **SARIMA** (Seasonal AutoRegressive Integrated Moving Average) appliqué à des données de ventes e-commerce réelles. L'objectif : dépasser l'analyse descriptive pour anticiper les tendances futures et appuyer les décisions de stock et marketing.
-
-Après 10 ans dans le business e-commerce avec Google Analytics ouvert chaque matin, ce projet traduit cette intuition terrain en méthode statistique rigoureuse.
+**Données :** SuperStore Sales Dataset (Kaggle), 9 800 lignes de commandes, de 2015 à 2018.
 
 ---
 
-## 🎯 Objectifs
+## 📖 Le problème
 
-1. **Analyse exploratoire des données** : Identifier les produits, régions et segments clients les plus performants
-2. **Analyse de corrélation** : Tester les relations entre les ventes et différentes dimensions business
-3. **Décomposition des séries temporelles** : Séparer la tendance, la saisonnalité et les résidus
-4. **Prévision** : Construire un modèle SARIMA pour prédire les ventes des 7 prochains jours
+Un e-commerce veut passer d'une lecture du passé à une anticipation de ses ventes, pour mieux préparer ses stocks et ses campagnes. Il faut d'abord savoir où se fait le chiffre d'affaires, puis construire une prévision fiable.
+
+---
+
+## 🛠️ Ma solution
+
+1. **Préparation des données** : dates converties, valeurs manquantes traitées (code postal), commandes triées dans le temps
+2. **Analyse exploratoire** : ventes par catégorie, produit, État, client, segment et mode de livraison
+3. **Analyse de la série temporelle** : test de stationnarité, décomposition en tendance, saisonnalité et résidus
+4. **Choix du modèle** : 64 combinaisons de paramètres SARIMA comparées sur leur AIC
+5. **Prévision** des ventes quotidiennes, avec leur intervalle de confiance
 
 ---
 
 ## 🔍 Résultats clés
 
-### Insights business
+### 1️⃣ Où se fait le chiffre d'affaires
 
-- Les **produits technologiques** génèrent le chiffre d'affaires le plus élevé (33 % des ventes totales)
-- **La Californie et New York** sont les États les plus performants
-- La **livraison standard** représente 60 % du chiffre d'affaires
-- Le **segment Consumer** représente plus de 50 % des ventes totales
+Sur 2,26 millions de dollars de ventes :
+
+| Dimension | Ce qui domine | Part des ventes |
+|---|---|---|
+| Catégorie | Technologie | **36,6 %** |
+| Segment | Particuliers (Consumer) | **50,8 %** |
+| Mode de livraison | Livraison standard | **59,3 %** |
+| État | Californie, puis New York | 446 000 $ et 306 000 $ |
+
+### 2️⃣ Une série prête à être modélisée
+
+Le test de Dickey-Fuller augmenté confirme que la série est stationnaire (statistique de -20,81, p-value de 0) : elle peut être modélisée directement.
+
+### 3️⃣ Le meilleur modèle sur 64
+
+```python
+p = d = q = range(0, 2)
+pdq = list(itertools.product(p, d, q))
+seasonal_pdq_comb = [(i[0], i[1], i[2], 12) for i in list(itertools.product(p, d, q))]
+# 8 combinaisons de tendance x 8 combinaisons saisonnières = 64 modèles comparés
+```
+
+Le modèle retenu, **SARIMA(1,1,1)(1,1,1,12)**, a l'AIC le plus faible des 64 : **20 079,17**. Son erreur quadratique moyenne (RMSE) est de **267,66**.
+
+### 4️⃣ La prévision
+
+Les ventes sont modélisées en montant moyen par jour. Pour les premiers jours de janvier 2019, le modèle prévoit **entre 196 et 254 dollars de vente moyenne selon le jour**, avec leur intervalle de confiance.
 
 ---
 
-### Analyse statistique
+## 💡 Ce que ça permet de décider
 
-- **Test de stationnarité** : Le test ADF confirme que la série est stationnaire (p-value < 0,05)
-- **Saisonnalité** : Présence d'un cycle saisonnier clair sur 12 mois
-- **Sélection du modèle** : SARIMA(1,1,1)(1,1,1,12) sélectionné via recherche par grille (AIC le plus faible : 20738,35)
-- **Performance du modèle** : RMSE = 267,66 (taux d'erreur ±12 %)
-
----
-
-### Analyse de corrélation
-
-Corrélations testées entre les ventes et :
-
-- Segments clients → Pas de corrélation forte
-- Catégories de produits → Pas de corrélation forte
-- Modes de livraison → Pas de corrélation forte
-
-**Conclusion** : D'autres facteurs (prix, saisonnalité, promotions) semblent avoir un impact plus significatif sur les ventes.
+- **Stocks** : sécuriser en priorité la technologie, première catégorie du chiffre d'affaires
+- **Promotions** : concentrer l'effort sur la Californie et New York
+- **Fidélisation** : cibler les particuliers, qui font plus de la moitié des ventes
+- **Logistique** : soigner la livraison standard, qui porte près de 60 % du chiffre d'affaires
 
 ---
 
 ## 🛠️ Stack technique
 
-- **Python 3.8+**
-- **Pandas** – Manipulation des données
-- **NumPy** – Calculs numériques
-- **Matplotlib & Seaborn** – Visualisation des données
-- **Statsmodels** – Analyse de séries temporelles & SARIMA
-- **Scikit-learn** – Évaluation du modèle (RMSE)
-
----
-
-## 📊 Méthodologie
-
-### 1. Préparation des données
-
-- Conversion des dates au format datetime
-- Gestion des valeurs manquantes (Code postal)
-- Tri des données par date de commande
-- Rééchantillonnage en moyennes journalières avec interpolation linéaire
-
----
-
-### 2. Analyse exploratoire
-
-- Ventes par catégorie, produit, État et client
-- Chiffre d'affaires par mode de livraison
-- Top 10 produits et clients
-
----
-
-### 3. Analyse de séries temporelles
-
-```python
-# Test de stationnarité
-Statistique ADF : -20.81 (p-value : 0.0)
-→ La série est stationnaire
-
-# Décomposition
-- Tendance : Croissance stable dans le temps
-- Saisonnalité : Cycle détecté sur 12 mois
-- Résidus : Bruit aléatoire
-```
-
----
-
-### 4. Modèle SARIMA
-
-```python
-# Recherche par grille testant 64 combinaisons de paramètres
-Meilleur modèle : SARIMA(1,1,1)(1,1,1,12)
-AIC : 20738.35
-RMSE : 267.66
-```
-
----
-
-### 5. Prévision
-
-Prévision sur 7 jours avec intervalles de confiance :
-
-- 2019-01-01 : 241 $
-- 2019-01-02 : 244 $
-- 2019-01-03 : 229 $
-- 2019-01-04 : 196 $
-- 2019-01-05 : 254 $ (pic)
-- 2019-01-06 : 223 $
-- 2019-01-07 : 229 $
-
----
-
-## 💡 Recommandations business
-
-Sur la base de cette analyse :
-
-1. **Planification des stocks**
-→ Anticiper les pics de ventes sur les produits technologiques
-
-2. **Campagnes marketing**
-→ Concentrer les dépenses publicitaires pendant les périodes de fort trafic (les dimanches montrent +40 % de ventes)
-
-3. **Focus régional**
-→ Prioriser la Californie et New York pour les promotions
-
-4. **Fidélisation client**
-→ Cibler le segment Consumer (50 %+ du chiffre d'affaires) avec des programmes de fidélité
-
-5. **Stratégie de livraison**
-→ Optimiser la livraison standard (60 % des commandes)
+- **Python** · **Pandas** · **NumPy**
+- **Matplotlib** et **Seaborn** : visualisation
+- **Statsmodels** : test de stationnarité, décomposition et SARIMA
+- **Scikit-learn** : calcul de l'erreur (RMSE)
 
 ---
 
 ## 📁 Structure du projet
 
+```
 ecommerce-sales-analysis-sarima/
-│
 ├── README.md
 ├── sales_forecasting_sarima.ipynb
 └── data/
-  └── train.csv
+    └── train.csv
+```
 
 ---
 
 ## 🚀 Lancer le projet
 
-1. Cloner le dépôt
-
-```
+```bash
 git clone https://github.com/Heltondsm/ecommerce-sales-analysis-sarima.git
 cd ecommerce-sales-analysis-sarima
-```
-
-2. Installer les dépendances
-
-```
 pip install pandas numpy matplotlib seaborn statsmodels scikit-learn jupyter
-```
-
-3. Lancer le notebook
-
-```
 jupyter notebook sales_forecasting_sarima.ipynb
 ```
 
 ---
 
-## 📈 Exemples de visualisations
-
-- Ventes par catégorie
-→ Les produits technologiques dominent avec 836K $ (33 % du total)
-
-- Décomposition des séries temporelles
-→ Tendance claire et saisonnalité sur 12 mois
-
-- Diagnostics SARIMA
-→ Résidus proches d'une distribution normale
-
-- Prévision sur 7 jours
-→ Prédictions avec intervalle de confiance à 95 %
-
----
-
-## 🎓 Compétences démontrées
-
-- Analyse exploratoire des données (EDA)
-- Nettoyage et prétraitement des données
-- Tests statistiques (ADF)
-- Décomposition de séries temporelles
-- Modélisation SARIMA
-- Optimisation des hyperparamètres (Grid Search)
-- Validation de modèle (RMSE, diagnostics)
-- Visualisation de données
-- Traduction d'analyses en recommandations business
-
----
-
-## 📫 Contact
+## 📧 Contact
 
 **Helton Dos Santos Moreira**
 Data Analyst / Data Engineer | 10 ans d'expérience business (retail et e-commerce)
@@ -230,10 +117,8 @@ Data Analyst / Data Engineer | 10 ans d'expérience business (retail et e-commer
 
 ## 🔗 Autres projets
 
-- [Tendances du streaming musical : tests statistiques et Prophet](https://github.com/Heltondsm/analyse-streaming-musical), 114 000 morceaux Spotify, 3 tests avec leur taille d'effet, prévision confrontée à un modèle naïf
-- [Pipeline dbt : profils sociodémographiques](https://github.com/Heltondsm/dbt-demographics-pipeline), Snowflake et DuckDB, 26 tests, reproductible en une commande
-- [Pipeline de veille du marché de l'emploi](https://github.com/Heltondsm/job-market-pipeline), APIs France Travail et INSEE Sirene, 698 offres et 1 166 entreprises en 11 secondes
+- [Tableau de bord Power BI : portefeuille de projets](https://github.com/Heltondsm/powerbi-portefeuille-projets-rls), 104 projets dans 52 pays, sécurité au niveau des lignes sur 3 rôles, 25 mesures DAX
+- [Audit données catalogue : e-commerce vins](https://github.com/Heltondsm/python-audit-donnees-catalogue), 3 sources réconciliées, 9 anomalies, 276 859 € de stock valorisé
+- [Tendances du streaming musical](https://github.com/Heltondsm/analyse-streaming-musical), 114 000 morceaux, tests statistiques et calendrier de sortie
 
 ---
-
-**Projet réalisé en juin 2025**
