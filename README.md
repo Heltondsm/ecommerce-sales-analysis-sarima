@@ -104,6 +104,22 @@ jupyter notebook sales_forecasting_sarima.ipynb
 
 ---
 
+## 📈 Compétences démontrées
+
+### Séries temporelles
+- ✅ Stationnarité testée (Dickey-Fuller augmenté) avant de modéliser
+- ✅ Décomposition en tendance, saisonnalité et résidus
+- ✅ 64 combinaisons SARIMA comparées sur l'AIC, erreur mesurée (RMSE), prévision avec intervalle de confiance
+
+### Analyse
+- ✅ Chiffre d'affaires lu par catégorie, segment, État et mode de livraison
+- ✅ Préparation des données : dates, valeurs manquantes, tri chronologique
+
+### Restitution
+- ✅ Quatre décisions concrètes pour l'e-commerce : stocks, promotions, fidélisation, logistique
+
+---
+
 ## 📧 Contact
 
 **Helton Dos Santos Moreira**
@@ -112,6 +128,7 @@ Data Analyst | 10 ans d'expérience business (retail et e-commerce)
 - 📧 Email : heltonmail8@gmail.com
 - 💼 LinkedIn : [in/helton-dsm-data](https://linkedin.com/in/helton-dsm-data)
 - 🐙 GitHub : [Heltondsm](https://github.com/Heltondsm)
+- 🌐 Portfolio : [heltondsm.github.io](https://heltondsm.github.io/)
 
 ---
 
@@ -124,3 +141,5 @@ Data Analyst | 10 ans d'expérience business (retail et e-commerce)
 - [Tendances du streaming musical](https://github.com/Heltondsm/analyse-streaming-musical), 114 000 morceaux, tests statistiques et calendrier de sortie
 
 ---
+
+**Projet réalisé en janvier 2026**
