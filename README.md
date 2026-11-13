@@ -134,6 +134,7 @@ Data Analyst | 10 ans d'expérience business (retail et e-commerce)
 
 ## 🔗 Autres projets
 
+- [Pilotage financier d'une PME : trésorerie, impayés et comparaison au secteur](https://github.com/Heltondsm/pilotage-financier-pme), Airflow, dbt, BigQuery et Power BI, prévision de trésorerie à 4,8 % du réel à 30 jours, 72 contrôles dbt
 - [CRM data et agents IA : centraliser opportunités, contacts et échanges](https://github.com/Heltondsm/crm-data-agents-ia), PostgreSQL alimenté par des API, collecte Python planifiée, opportunités notées par IA, testé automatiquement à chaque push
 - [Étude de marché par clustering : choisir les pays où exporter de la volaille bio](https://github.com/Heltondsm/python-etude-marche-clustering-pays), ACP, CAH et k-means sur 170 pays, 4 familles, 3 marchés prioritaires
 - [Tableau de bord Power BI : portefeuille de projets](https://github.com/Heltondsm/powerbi-portefeuille-projets-rls), 104 projets dans 52 pays, sécurité au niveau des lignes sur 3 rôles, 25 mesures DAX
